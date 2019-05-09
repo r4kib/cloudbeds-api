@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'cloudbeds' => [
+    'api' => [
         'clientId' => env('CLOUDBEDS_API_CLIENT_ID'),
         'clientSecret' => env('CLOUDBEDS_API_CLIENT_SECRET'),
         'redirectUri' => env('CLOUDBEDS_API_REDIRECT_URI'),

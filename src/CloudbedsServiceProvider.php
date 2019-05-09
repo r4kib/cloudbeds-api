@@ -1,7 +1,6 @@
 <?php
 
 namespace R4kib\Cloudbeds;
-use R4kib\Cloudbeds\Cloudbeds as cb;
 use Illuminate\Support\ServiceProvider;
 
 class CloudbedsServiceProvider extends ServiceProvider
@@ -14,14 +13,13 @@ class CloudbedsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            'R4kib\\Cloudbeds\\Cloudbeds', function()
+        $this->app->singleton(Cloudbeds::class, function()
         {
             return new Cloudbeds([
-                'clientId' => config('cloudbeds.clientId'),
-                'clientSecret' => config('cloudbeds.clientSecret'),
-                'redirectUri' =>config('cloudbeds.redirectUri'),
-                'version' => config('cloudbeds.version')]) ;
+                'clientId' => config('cloudbeds.api.clientId'),
+                'clientSecret' => config('cloudbeds.api.clientSecret'),
+                'redirectUri' =>config('cloudbeds.api.redirectUri'),
+                'version' => config('cloudbeds.api.version')]) ;
         });
     }
 
