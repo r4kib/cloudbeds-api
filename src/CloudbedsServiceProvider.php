@@ -34,7 +34,7 @@ class CloudbedsServiceProvider extends ServiceProvider
     {
 
         $this->publishes([
-            __DIR__.'/../config/cloudbeds.php' => config_path('cloudbeds.php'),
+            __DIR__.'/config/cloudbeds.php' => config_path('cloudbeds.php'),
         ]);
     }
 }
