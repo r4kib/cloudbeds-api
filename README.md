@@ -1,2 +1,3 @@
 #cloudbeds-api
- Cloudbeds.com API Wrapper for PHP with Laravel Integration
+
+Cloudbeds.com API Wrapper for PHP with Laravel Integration
