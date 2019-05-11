@@ -10,9 +10,11 @@ namespace R4kib\Cloudbeds;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\ResponseInterface;
 use R4kib\Cloudbeds\Exceptions\CloudbedsHttpException;
 use R4kib\Cloudbeds\Exceptions\CloudbedsAPIException;
+use R4kib\Cloudbeds\Exceptions\CloudbedsOperationNotSuccessfulException;
 
 
 class Cloudbeds
@@ -74,11 +76,9 @@ class Cloudbeds
 
     /**
      * @param $uri string
-     * @param $accessToken string
+     * @param $accessToken AccessToken
      * @param $params array
      * @return array
-     * @throws CloudbedsAPIException
-     * @throws CloudbedsHttpException
      */
     public function get($uri, $accessToken, $params=[])
     {
@@ -87,11 +87,9 @@ class Cloudbeds
 
     /**
      * @param $uri string
-     * @param $accessToken string
+     * @param $accessToken AccessToken
      * @param $params array
      * @return array
-     * @throws CloudbedsAPIException
-     * @throws CloudbedsHttpException
      */
     public function post($uri, $accessToken, $params=[])
     {
@@ -100,11 +98,9 @@ class Cloudbeds
 
     /**
      * @param $uri string
-     * @param $accessToken string
+     * @param $accessToken AccessToken
      * @param $params array
      * @return array
-     * @throws CloudbedsAPIException
-     * @throws CloudbedsHttpException
      */
     public function put($uri, $accessToken, $params=[])
     {
@@ -113,11 +109,9 @@ class Cloudbeds
 
     /**
      * @param $uri string
-     * @param $accessToken string
+     * @param $accessToken AccessToken
      * @param $params array
      * @return array
-     * @throws CloudbedsAPIException
-     * @throws CloudbedsHttpException
      */
     public function delete($uri, $accessToken, $params=[])
     {
@@ -127,11 +121,12 @@ class Cloudbeds
     /**
      * @param $method
      * @param $uri
-     * @param $accessToken
+     * @param $accessToken AccessToken
      * @param $params
      * @return array
      * @throws CloudbedsHttpException
      * @throws CloudbedsAPIException
+     * @throws CloudbedsOperationNotSuccessfulException
      */
     private function request($method, $uri, $accessToken, $params=[])
     {
@@ -147,13 +142,25 @@ class Cloudbeds
                 $response->getStatusCode()
             );
         }
+        if (isset($data['success']) and $data['success']==false) {
+            throw new CloudbedsOperationNotSuccessfulException(
+                'Operation Failed - '. $data['message'],
+                $response->getStatusCode()
+            );
+        }
+
         return $data;
     }
 
+    /**
+     * @param $accessToken AccessToken
+     * @param $params array
+     * @return array
+     */
     private function makeOption($accessToken, $params)
     {
         $options = ['headers' => [
-            'Authorization' => 'Bearer ' . $accessToken]];
+            'Authorization' => 'Bearer ' . $accessToken->getToken()]];
 
         if (count($params)>0){
             $options['query'] = $params;
