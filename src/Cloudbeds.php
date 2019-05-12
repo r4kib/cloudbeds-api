@@ -126,7 +126,6 @@ class Cloudbeds
      * @return array
      * @throws CloudbedsHttpException
      * @throws CloudbedsAPIException
-     * @throws CloudbedsOperationNotSuccessfulException
      */
     private function request($method, $uri, $accessToken, $params=[])
     {
@@ -142,12 +141,12 @@ class Cloudbeds
                 $response->getStatusCode()
             );
         }
-        if (isset($data['success']) and $data['success']==false) {
-            throw new CloudbedsOperationNotSuccessfulException(
-                'Operation Failed - '. $data['message'],
-                $response->getStatusCode()
-            );
-        }
+//        if (isset($data['success']) and $data['success']==false) {
+//            throw new CloudbedsOperationNotSuccessfulException(
+//                'Operation Failed - '. $data['message'],
+//                $response->getStatusCode()
+//            );
+//        }
 
         return $data;
     }
