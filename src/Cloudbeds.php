@@ -130,7 +130,7 @@ class Cloudbeds
     private function request($method, $uri, $accessToken, $params=[])
     {
         try {
-            $response = $this->getHttpClient()->request($method, $this->baseUrl . $uri, $this->makeOption($accessToken, $params));
+            $response = $this->getHttpClient()->request($method, $this->baseUrl . $uri, $this->makeOption($accessToken, $params,$method));
         } catch (GuzzleException $e) {
             throw new CloudbedsHttpException($e->getMessage(),$e->getCode(),$e->getPrevious());
         }
@@ -154,16 +154,24 @@ class Cloudbeds
     /**
      * @param $accessToken AccessToken
      * @param $params array
+     * @param string $method
      * @return array
      */
-    private function makeOption($accessToken, $params)
+    private function makeOption($accessToken, $params,$method="GET")
     {
         $options = ['headers' => [
             'Authorization' => 'Bearer ' . $accessToken->getToken()]];
 
-        if (count($params)>0){
-            $options['query'] = $params;
+        if ($method=="GET"){
+            if (count($params)>0){
+                $options['query'] = $params;
+            }
+        }else{
+            if (count($params)>0){
+                $options['form_params'] = $params;
+            }
         }
+
         return $options;
     }
 
