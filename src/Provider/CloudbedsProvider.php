@@ -8,6 +8,7 @@
 
 namespace R4kib\Cloudbeds\Provider;
 
+use GuzzleHttp\Exception\GuzzleException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -64,9 +65,9 @@ class CloudbedsProvider extends AbstractProvider
      *
      * @return array
      */
-    protected function getDefaultScopes()
+    protected function getDefaultScopes(): array
     {
-        // TODO: Implement getDefaultScopes() method.
+        return [];
     }
 
     /**
@@ -108,10 +109,12 @@ class CloudbedsProvider extends AbstractProvider
     /**
      * Requests and returns the resource owner of given access token.
      *
-     * @param  AccessToken $token
+     * @param AccessToken $token
      * @return CLoudbedsResourceOwner
-*/
-    public function getResourceOwner(AccessToken $token)
+     * @throws IdentityProviderException
+     * @throws GuzzleException
+     */
+    public function getResourceOwner(AccessToken $token): CLoudbedsResourceOwner
     {
         $response = $this->fetchResourceOwnerDetails($token);
 
