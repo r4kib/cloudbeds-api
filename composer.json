@@ -15,9 +15,10 @@
       "email": "rakib.hbo@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
-    "league/oauth2-client": "^2.4"
+    "php": "^8.3",
+    "guzzlehttp/guzzle": "^8.1",
+    "league/oauth2-client": "^2.9"
   },
   "autoload": {
     "psr-4": {
@@ -25,12 +26,12 @@
     }
   },
   "require-dev": {
-    "mockery/mockery": "^1.0",
-    "phpunit/phpunit": "^7.5"
+    "orchestra/testbench": "^11.0",
+    "phpunit/phpunit": "^12.0"
   },
   "autoload-dev": {
     "psr-4": {
-      "R4kib\\Cloudbeds\\Tests\\": "tests/src/"
+      "R4kib\\Cloudbeds\\Test\\": "test/src/"
     }
   },
   "extra": {
@@ -39,5 +40,11 @@
         "R4kib\\Cloudbeds\\CloudbedsServiceProvider"
       ]
     }
+  },
+  "suggest": {
+    "illuminate/support": "Required to use the Laravel service provider (^13.0)."
+  },
+  "scripts": {
+    "test": "phpunit"
   }
 }

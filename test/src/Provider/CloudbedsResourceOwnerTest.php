@@ -6,7 +6,7 @@
  * Time: 2:58 PM
  */
 
-namespace R4kib\Cloudbeds\Test\Provider\CloudbedsTest;
+namespace R4kib\Cloudbeds\Test\Provider;
 
 use PHPUnit\Framework\TestCase;
 use R4kib\Cloudbeds\Provider\CLoudbedsResourceOwner;
@@ -15,7 +15,7 @@ class CloudbedsResourceOwnerTest extends TestCase
 {
     protected $owner;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->owner = new CLoudbedsResourceOwner([
             'user_id' => 'mock_user_id',

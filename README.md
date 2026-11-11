@@ -3,6 +3,8 @@
 
 Cloudbeds.com API Wrapper for PHP with Laravel Integration
 
+Requires PHP 8.3 or later. Laravel integration supports Laravel 13.
+
 ## Installation
 
 ```
@@ -16,9 +18,9 @@ composer require r4kib/cloudbeds-api
 
 ```php
 $cloudbeds = new \R4kib\Cloudbeds\Cloudbeds([
-    'clientId'                => 'yourId',          // The client ID assigned to you by Amazon
-    'clientSecret'            => 'yourSecret',      // The client password assigned to you by Amazon
-    'redirectUri'             => 'yourRedirectUri',  // The return URL you specified for your app on Amazon
+    'clientId'                => 'yourId',          // The client ID assigned to you by Cloudbeds
+    'clientSecret'            => 'yourSecret',      // The client password assigned to you by Cloudbeds
+    'redirectUri'             => 'yourRedirectUri',  // The return URL you specified for your app on Cloudbeds
     'version'                 => 'v1.1'  // API Version, default v1.1
 ]);
 ```
@@ -26,7 +28,7 @@ $cloudbeds = new \R4kib\Cloudbeds\Cloudbeds([
 
 1. Publish the configuration
 ```
-php artisan vendor:publish --config
+php artisan vendor:publish --tag=cloudbeds-config
 ```
 2. Setup API details in the `.env` file
 ```

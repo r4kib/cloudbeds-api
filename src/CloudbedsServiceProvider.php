@@ -11,8 +11,10 @@ class CloudbedsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/config/cloudbeds.php', 'cloudbeds');
+
         $this->app->singleton(Cloudbeds::class, function()
         {
             return new Cloudbeds([
@@ -28,11 +30,11 @@ class CloudbedsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
 
         $this->publishes([
             __DIR__.'/config/cloudbeds.php' => config_path('cloudbeds.php'),
-        ]);
+        ], 'cloudbeds-config');
     }
 }
