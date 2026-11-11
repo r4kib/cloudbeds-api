@@ -1,54 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rakib
- * Date: 09-May-19
- * Time: 3:11 AM
- */
 
 namespace R4kib\Cloudbeds\Test;
 
-
-use Illuminate\Contracts\Foundation\Application;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
+use R4kib\Cloudbeds\Cloudbeds;
 use R4kib\Cloudbeds\CloudbedsServiceProvider;
-use Mockery as m;
 
 class CloudbedsServiceProviderTest extends TestCase
 {
-    protected $provider;
-    protected function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    protected function getPackageProviders($app): array
     {
-        $app=m::mock(Application::class);
-        $app->shouldReceive('singleton')
-        ->times(1)
-        ->withAnyArgs()
-        ->andReturnNull();
-        $app->shouldReceive('publishes')
-            ->once()
-            ->withAnyArgs()
-            ->andReturnNull();
-        $app->shouldReceive('make')
-            ->with('path.config')
-            ->once()
-            ->andReturn('/some/path');
-       $this->provider= new CloudbedsServiceProvider($app);
+        return [CloudbedsServiceProvider::class];
     }
 
-    public function testCanBeConstructed()
+    public function testProviderResolvesConfiguredSingleton(): void
     {
-        $this->assertInstanceOf(CloudbedsServiceProvider::class,$this->provider);
+        $this->assertSame('v1.1', config('cloudbeds.api.version'));
+        config()->set('cloudbeds.api.clientId', 'test-client');
+        config()->set('cloudbeds.api.version', 'v2');
+
+        $client = $this->app->make(Cloudbeds::class);
+
+        $this->assertSame($client, $this->app->make(Cloudbeds::class));
+        $this->assertSame('test-client', $client->getOptions()['clientId']);
+        $this->assertSame('https://hotels.cloudbeds.com/api/v2', $client->getOptions()['apiBaseUrl']);
     }
-
-    public function testRegister()
-    {
-        $this->assertNull($this->provider->register());
-    }
-
-//    public function testBoot()
-//    {
-//        $this->assertNull($this->provider->boot());
-//    }
-    
-
 }
